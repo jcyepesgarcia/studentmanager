@@ -15,7 +15,4 @@ public class Student {
     private String lastName;
     @Column(name="email_address", unique = true, nullable = false)// Cuando un atributo d ela clase lleva un nombre diferente al de la columna en la BBBDD, debe usarse esta anotación para señalar la columna a la que apunta el atributo
     private String email;
-
-
-
 }

@@ -14,29 +14,36 @@ public class StudentService {
     @Autowired
     StudentRepository studentRepository;
 
-    public List<Student> getAll(){
+    public Student create(Student student) {
+        Student registeredStudent = studentRepository.findByEmail(student.getEmail());
+        if (registeredStudent != null)
+            return null;
+        return studentRepository.save(student);
+    }
+
+    public List<Student> getAll() {
         return studentRepository.findAll();
     }
 
-    public Optional<Student> getById(Long id){
-        return studentRepository.findById(id);
+    public Student getById(Long id) {
+        return studentRepository.findById(id).orElse(null);
     }
 
-    public boolean saveOrUpdate(Student student){
-        Optional<Student> existingStudent = studentRepository.findById(student.getId());
-        if(existingStudent.isPresent()){
-            studentRepository.save(student);
-            return  true;
+    public Student update(Student student) {
+        Student existingStudent = studentRepository.findById(student.getId()).orElse(null);
+        if (existingStudent != null) {
+            return studentRepository.save(student);
         }
-        return false;
+        return null;
     }
 
     public boolean delete(Long id){
-        Optional<Student> existingStudent = studentRepository.findById(id);
-        if(existingStudent.isPresent()){
-            studentRepository.deleteById(id);
-            return  true;
+        Student student = studentRepository.findById(id).orElse(null);
+        if(student != null) {
+            studentRepository.delete(student);
+            return true;
         }
         return false;
     }
+
 }
